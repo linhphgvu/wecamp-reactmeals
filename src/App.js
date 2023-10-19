@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Fragment, useState } from "react";
+
+import Header from "./components/header/Header";
+import Description from "./components/description/Description";
+import Food from "./components/food/Food";
+import Cart from "./components/cart/Cart";
+import CartProvider from "./state/CardProvider";
 
 function App() {
+  const [viewCart, setViewCart] = useState(false);
+
+  const toggleViewCartHandler = () => {
+    setViewCart(prevState => {
+      return !prevState; 
+    });
+  };
+
+  const hideViewCartHandler = () => {
+    setViewCart(false);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <CartProvider>
+      {viewCart && <Cart onClose={hideViewCartHandler} />}
+      <Header toggleViewCart={toggleViewCartHandler} />
+      <main>
+        <Description />
+        <Food />
+      </main>
+    </CartProvider>
   );
 }
 
